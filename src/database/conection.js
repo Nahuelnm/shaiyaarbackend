@@ -1,10 +1,11 @@
 import sql from 'mssql';
-
+import {config} from 'dotenv';
+config();
 const dbsettings ={
     user:'Shaiya',
     password:'shaiya123',
-    server:'127.0.0.1',
-    database:'PS_UserData',
+    server:process.env.IP,
+    database:process.env.DATABASE,
     options:{
         encrypt:false,
         trustServerCertificate: true,
@@ -14,9 +15,14 @@ const dbsettings ={
 
 
 async function getConnection(){
-    const pool = await sql.connect(dbsettings);
-    const result = await  pool.request().query('SELECT 1');
-    console.log(result)
+    try{
+        const pool = await sql.connect(dbsettings);
+        return pool;
+    }catch (error){
+        console.log(error)
+    }
+
 }
 
 getConnection();
+
