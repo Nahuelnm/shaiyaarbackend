@@ -13,7 +13,7 @@ const dbsettings ={
 
 
 
-async function getConnection(){
+export async function getConnection(){
     try{
         const pool = await sql.connect(dbsettings);
         return pool;
@@ -22,6 +22,3 @@ async function getConnection(){
     }
 
 }
-
-getConnection();
-
