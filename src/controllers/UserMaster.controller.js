@@ -6,28 +6,42 @@ export const getUser = async (req,res) => {
     const result = await pool.request().query("SELECT * FROM User_Masters WHERE")
     console.log(result);
 }
+
+
+export const reviewnewUser = async (req,res) => {
+    const { userID, pw} = req.body;
+    const pool = await getConnection();
+    const userUID = await pool.request().query('SELECT COUNT(*) FROM Users_Master');
+    const userUID1 = userUID.recordset[0];
+    console.log(userID,pw,userUID1)
+
+
+
+}
+
+
 export const newUser = async (req,res) => {
-    const userID  = req.body;
-    const pw  = req.body
-    console.log(userID,pw);
+    const { userID, pw} = req.body;
 
     if (userID == null || pw == null) {
         return res.status(400).json({ msg: "Bad Request. Please fill all fields" });
       }
 
-    const userUID = await pool.request().query(querys.countUsers) + 1;
+    const userUID = 4;
     const joinDate =new Date().toISOString().slice(0, 19).replace('T', ' ');
     const admin = 0;
     const adminLevel = 0;
     const usequeue=0;
     const status=0;
-    const leaveDate= "2033-01-30 00:00:00";
+    const leaveDate= null;
     const userType = "N";
-    const userIp = NULL;
-    const modIp = NULL;
+    const userIp = null;
+    const modiIp = null;
+    const modidate = null;
     const point = 0;
-    const enpassword =NULL;
-    const birth = NULL;
+    const enpassword =null;
+    const birth = null;
+    const leave = 0;
     try {
         const pool = await getConnection();
         await pool  
@@ -40,10 +54,12 @@ export const newUser = async (req,res) => {
             .input("AdminLevel",sql.TinyInt,adminLevel)
             .input("UseQueue",sql.Bit,usequeue)
             .input("Status",sql.SmallInt,status)
+            .input("Leave",sql.SmallInt,leave)
             .input("LeaveDate", sql.SmallDateTime,leaveDate)
             .input("UserType", sql.Char(1), userType)
             .input("UserIp", sql.VarChar(15), userIp)
-            .input("ModIp", sql.VarChar(15), modIp)
+            .input("ModiIp", sql.VarChar(15), modiIp)
+            .input("ModiDate", sql.SmallDateTime, modidate)
             .input("Point", sql.Int, point)
             .input("Enpassword", sql.VarChar(32), enpassword)
             .input("Birth", sql.VarChar(8), birth)
