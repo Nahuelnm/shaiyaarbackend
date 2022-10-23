@@ -7,7 +7,9 @@ export const getUser = async (req,res) => {
     console.log(result);
 }
 export const newUser = async (req,res) => {
-    const { userID, pw} = req.body;
+    const userID  = req.body;
+    const pw  = req.body
+    console.log(userID,pw);
 
     if (userID == null || pw == null) {
         return res.status(400).json({ msg: "Bad Request. Please fill all fields" });
