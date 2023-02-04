@@ -1,6 +1,9 @@
-import{getConnection, querys, sql} from'../database'
 
-export const getUser = async (req,res) => {
+
+const {getConnection, sql} = require('../database/connection')
+const { querys } = require('../database/querys')
+
+exports.getUser = async (req,res) => {
     const pool = await getConnection();
     const { username, password} = req.body;
     const result = await pool.request().query("SELECT * FROM User_Masters WHERE")
@@ -8,7 +11,7 @@ export const getUser = async (req,res) => {
 }
 
 
-export const reviewnewUser = async (req,res) => {
+exports.reviewnewUser = async (req,res) => {
     const { userID, pw} = req.body;
     const pool = await getConnection();
     const userUID = await pool.request().query('SELECT COUNT(*) FROM Users_Master');
@@ -20,7 +23,7 @@ export const reviewnewUser = async (req,res) => {
 }
 
 
-export const newUser = async (req,res) => {
+exports.newUser = async (req,res) => {
     const { userID, pw} = req.body;
 
     if (userID == null || pw == null) {
