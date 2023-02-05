@@ -1,23 +1,44 @@
 import { getConnection, querys, sql } from "../database";
 
 exports.getUser = async (req,res) => {
-    const pool = await getConnection();
-    const userID = req.body.userID;
-    const pw = req.body.pw;
-    const result = await pool.request().query("SELECT * FROM User_Masters WHERE")
-    console.log(result);
+    try {
+        const userID = req.body.userID;
+        const pool = await getConnection();
+        const result = await pool  
+            .request()
+            .input("UserId", userID)
+            .query(querys.findUser);
+        const userFinded = result.recordset[0];
+       console.log( userFinded);
+
+    }catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
 }
 
 exports.newUser = async (req,res) => {
 
     const userID = req.body.userID;
     const pw = req.body.pw;
-    console.log(req.body.userID);
-    console.log(req.body.pw);
+    const pool = await getConnection();
+    let userFinded = false;
+    const searchUser = await pool  
+        .request()
+        .input("UserId", userID)
+        .query(querys.findUser);
+
+    if(Object.keys(searchUser.recordset).length>0){
+        userFinded = true;
+    }else{
+        userFinded = false;
+    }
 
     if (userID == null || pw == null) {
         return res.status(400).json({ msg: "Bad Request. Please fill all fields" });
-      }
+    }else if(userFinded==true){
+        return res.status(400).json({ msg: "the user exist in db" });
+    }else{ 
 
     const userUID = 4;
     const joinDate =new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -62,5 +83,5 @@ exports.newUser = async (req,res) => {
             res.status(500);
             res.send(error.message);
         }
-
+    } 
 }
