@@ -1,6 +1,6 @@
+import sql from "mssql";
 
-const sql =require('mssql')
-const dbsettings ={
+export const dbsettings ={
     user:'Shaiya',
     password:'shaiya123',
     server:'127.0.0.1',
@@ -12,8 +12,9 @@ const dbsettings ={
 }
 
 
+exports.getConnection= async()=> {
 
-exports.getConnection = async()=>{
+
     try{
         const pool = await sql.connect(dbsettings);
         return pool;
@@ -22,4 +23,4 @@ exports.getConnection = async()=>{
     }
 
 }
-module.exports = sql;
+export { sql };

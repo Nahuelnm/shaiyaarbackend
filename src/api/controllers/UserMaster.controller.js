@@ -1,30 +1,19 @@
-
-
-const {getConnection, sql} = require('../database/connection')
-const { querys } = require('../database/querys')
+import { getConnection, querys, sql } from "../database";
 
 exports.getUser = async (req,res) => {
     const pool = await getConnection();
-    const { username, password} = req.body;
+    const userID = req.body.userID;
+    const pw = req.body.pw;
     const result = await pool.request().query("SELECT * FROM User_Masters WHERE")
     console.log(result);
 }
 
-
-exports.reviewnewUser = async (req,res) => {
-    const { userID, pw} = req.body;
-    const pool = await getConnection();
-    const userUID = await pool.request().query('SELECT COUNT(*) FROM Users_Master');
-    const userUID1 = userUID.recordset[0];
-    console.log(userID,pw,userUID1)
-
-
-
-}
-
-
 exports.newUser = async (req,res) => {
-    const { userID, pw} = req.body;
+
+    const userID = req.body.userID;
+    const pw = req.body.pw;
+    console.log(req.body.userID);
+    console.log(req.body.pw);
 
     if (userID == null || pw == null) {
         return res.status(400).json({ msg: "Bad Request. Please fill all fields" });
@@ -66,7 +55,9 @@ exports.newUser = async (req,res) => {
             .input("Point", sql.Int, point)
             .input("Enpassword", sql.VarChar(32), enpassword)
             .input("Birth", sql.VarChar(8), birth)
-            .query(querys.addNewUser)
+            .query(querys.addNewUser);
+            res.status(200);
+            res.send("created user ok");
         } catch (error) {
             res.status(500);
             res.send(error.message);
