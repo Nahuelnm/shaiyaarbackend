@@ -1,9 +1,10 @@
-const {getUser,newUser} = require('../controllers/UserMaster.controller')
+const {signIn,signUp,counter} = require('../controllers/UserMaster.controller')
 
 const express = require('express');
 const router = express.Router();
 
-router.get('/getuser',getUser)
-router.post('/newuser',newUser)
+router.get('/signIn',signIn)
+router.get('/count',counter)
+router.post('/signUp',signUp)
 
 module.exports=router;
