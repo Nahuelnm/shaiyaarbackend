@@ -1,17 +1,17 @@
 import { getConnection, querys, sql } from "../database";
 
-exports.counter = async (req,res) => {
+exports.updateAP = async (req,res) => {
     try {
+        const userID = req.body.userID;
+        const point = req.body.point;
         const pool = await getConnection();
         const result = await pool  
             .request()
-            .query(querys.countUsers);
-        let obj = result.recordset[0];
-        let value = obj[''];
-        let intvalue = parseInt(value);
-        console.log(intvalue);
+            .input("UserId", userID)
+            .input("Point", point)
+            .query(querys.updateAP);
         res.status(200);
-        res.send("count successfully");
+        res.send("AP Updated successfully");
     }catch (error) {
         res.status(500);
         res.send(error.message);
