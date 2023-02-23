@@ -3,5 +3,6 @@ exports.querys = {
     signIn:"SELECT UserID, Pw, Point FROM [PS_UserData].[dbo].[Users_Master] WHERE UserID=@userID AND Pw = @pw",
     findUser:"SELECT UserID FROM [PS_UserData].[dbo].[Users_Master] WHERE UserID=@userID ",
     updateAP:"UPDATE [PS_UserData].[dbo].[Users_Master] SET Point = @point WHERE UserID=@userID",
+    countUsers:"SELECT COUNT(*) FROM Users_Master",
     addNewItem:""
 };

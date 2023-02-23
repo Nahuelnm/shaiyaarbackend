@@ -1,4 +1,4 @@
-import { getConnection, querys, sql } from "../database";
+import { getConnection, querys, sql } from "../database/db_PS_UserData";
 
 exports.updateAP = async (req,res) => {
     try {
@@ -11,7 +11,7 @@ exports.updateAP = async (req,res) => {
             .input("Point", point)
             .query(querys.updateAP);
         res.status(200);
-        res.send("AP Updated successfully");
+        res.send("AP Updated successfully"); 
     }catch (error) {
         res.status(500);
         res.send(error.message);
@@ -45,7 +45,6 @@ exports.signIn = async (req,res) => {
         res.send(error.message);
     }
 }
-
 exports.signUp = async (req,res) => {
     const pool = await getConnection();
     let userFinded = false;
@@ -87,7 +86,8 @@ exports.signUp = async (req,res) => {
 
     if (userID == null || pw == null) {
         return res.status(400).json({ msg: "Bad Request. Please fill all fields" });
-    }else if(userFinded==true){
+    }
+    else if(userFinded==true){
         return res.status(401).json({ msg: "User exist in DB" });
     }else{ 
         try {
